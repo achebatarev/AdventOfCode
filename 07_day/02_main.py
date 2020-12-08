@@ -3,7 +3,7 @@ def recursion(bag, d):
     if not d[bag[1]]:
         return bag[0]
     else:
-        s = 0 
+        s = 0
         for e in d[bag[1]]:
             s += recursion(e, d) 
         output = s * bag[0] + bag[0]
