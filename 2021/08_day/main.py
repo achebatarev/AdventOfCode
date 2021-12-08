@@ -2,10 +2,12 @@ from collections import Counter
 def first(out):
     s = set([2, 3, 4, 7])
     r = 0
-    for e in out:
-        if len(e) in s:
-            r += 1
+    for line in out:
+        for e in line:
+            if len(e) in s:
+                r += 1
     return r
+
 def second(inp, out):
     d = {2: 1, 3: 7, 4: 4, 7: 8}
     r = 0
@@ -68,7 +70,7 @@ with open('input', 'r') as f:
         i, o = line.strip().split('|')
         inp.append(i.split())
         out.append(o.split())
-#print(first(out))
+print(first(out))
 print(second(inp, out))
 
     
