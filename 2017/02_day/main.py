@@ -25,7 +25,7 @@ def partA(data):
 #only 2 numbers that are divisible by each other
 # meaning there ther gcd != 1, and that they are no coprimes
 # I can easily find what they are divisible by, and then, simply, check each number if they are divisible by it or not
-
+#
 def partB(data):
     res = 0
     for e in data:
