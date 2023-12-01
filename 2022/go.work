@@ -1,0 +1,9 @@
+go 1.19
+
+use ./challenges/day3
+
+use ./challenges/day4
+
+use ./challenges/day5
+
+use ./cast

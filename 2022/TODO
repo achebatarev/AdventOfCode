@@ -1,0 +1,10 @@
+Wants:
+1. template folder for each day
+2. run code of certain days from main page 
+TODO:
+1. Create a read_input function 
+    1.1 Support relative file imports
+2. Handle CLI arguments
+3. Hanlde testing from root
+4. Create a folder template
+5. support actual packages, rather than magic with local replaces
