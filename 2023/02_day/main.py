@@ -3,34 +3,43 @@ from pprint import pprint
 from collections import defaultdict, deque, Counter
 from dataclasses import dataclass
 import heapq
+from pydantic import BaseModel, Field
 
-from itertools import chain 
-            
+from functools import reduce
+from itertools import chain
+import operator
+
 
 try:
-    FILE = sys.argv[1] 
+    FILE = sys.argv[1]
 except:
-    FILE = 'test.in'
+    FILE = "test.in"
+
 
 @dataclass
 class Cube:
     amount: int
-    color: str 
+    color: str
+
+    def __post_init__(self):
+        self.amount = int(self.amount)
+
 
 def read_data(filename: str):
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         return f.read().splitlines()
 
+
 def first(data):
-    mapping = {'green': 13, 'red': 12, 'blue': 14}
+    mapping = {"green": 13, "red": 12, "blue": 14}
     ans = 0
     for i, games in data.items():
         win = True
 
         for s in games:
-            m = {'green': 0, 'red': 0, 'blue': 0}
+            m = defaultdict(int)
             for cube in s:
-                m[cube.color] += int(cube.amount)
+                m[cube.color] += cube.amount
 
             for color in m:
                 if m[color] > mapping[color]:
@@ -43,34 +52,33 @@ def first(data):
 
 
 def second(data):
-    mapping = {'green': 13, 'red': 12, 'blue': 14}
-
     res = 0
     for _, games in data.items():
-        
-        ans = {'green': 0, 'red': 0, 'blue': 0}
+        d = defaultdict(int)
         for s in games:
-            m = {'green': 0, 'red': 0, 'blue': 0}
+            m = defaultdict(int)
             for cube in s:
                 m[cube.color] += int(cube.amount)
 
             for color in m:
-                ans[color] = max(m[color], ans[color])
-        t = 1
-        for _, b in ans.items():
-            t *= b
-        res += t
+                d[color] = max(m[color], d[color])
 
-    return res 
+        res += reduce(operator.mul, d.values())
+
+    return res
+
 
 def parse_data(data):
     l = {}
     for e in data:
-        game, info = e.split(':')
-        l[int(game.split()[1])] = [[Cube(*c.strip().split()) for c in a.split(',')] for a in info.split(';')]
-    return l 
+        game, info = e.split(":")
+        l[int(game.split()[1])] = [
+            [Cube(*c.strip().split()) for c in a.split(",")] for a in info.split(";")
+        ]
+    return l
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     data = read_data(FILE)
     parsed_data = parse_data(data)
     print(first(parsed_data))
