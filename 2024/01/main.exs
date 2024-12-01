@@ -12,17 +12,13 @@ defmodule Aoc2024D1 do
       |> String.split 
       |> Enum.map(&String.to_integer/1)
     end)
-  |> Enum.zip()
+  |> Enum.reduce([[], []], fn [a, b], [acc1, acc2] -> [[a | acc1], [b | acc2]] end)
   end
 end
 
 Aoc2024D1.input("input_test.txt")
 |> Aoc2024D1.parse
-|> Enum.map(fn x ->
-  x 
-  |> Tuple.to_list()
-  |> Enum.sort()
-  end)
+|> Enum.map(&Enum.sort/1)
 |> Enum.zip() 
 |> Enum.map(fn {a, b} -> abs(a - b) end)
 |> Enum.sum()
@@ -31,7 +27,6 @@ Aoc2024D1.input("input_test.txt")
 # part2
 [l1, goal] = Aoc2024D1.input("input_test.txt") 
 |> Aoc2024D1.parse()
-|> Enum.map(&Tuple.to_list/1)
 
 l1
 |> Enum.map(fn e -> Enum.count(goal, &(&1 == e)) end)
