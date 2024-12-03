@@ -40,3 +40,25 @@ Aoc2024D2.input("input.d2")
 end)
 |> Enum.sum()
 |> IO.inspect()
+
+# part2
+Aoc2024D2.input("input.d2")
+|> Aoc2024D2.parse
+|> Enum.map(fn l ->
+  chunked = l
+  |> Enum.chunk_every(2, 1, :discard)
+  [a, b] = hd(chunked)
+  increasing = if a < b, do: true, else: false
+  val = chunked
+  |> Enum.reduce(0, fn [a, b], acc -> 
+    cond do
+      increasing and a < b and abs(a-b) >=1 and abs(a-b) <= 3 -> 1
+      !increasing and a > b and abs(a-b) >=1 and abs(a-b) <= 3 -> 1 
+      true -> 0 
+    end
+    |> Kernel.+(acc)
+  end)
+  if val == length(chunked) or val == length(chunked) - 1, do: 1, else: 0
+end)
+|> Enum.sum()
+|> IO.inspect()
